@@ -45,3 +45,5 @@ export class Mensalidade {
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 }
+
+//sdasdasdasd
