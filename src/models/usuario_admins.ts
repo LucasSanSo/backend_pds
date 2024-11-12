@@ -6,8 +6,9 @@ import {
   JoinColumn,
   CreateDateColumn,
   UpdateDateColumn,
-} from 'typeorm';
-import { Perfil } from './Perfil';
+} from 'typeorm'
+import { v4 as uuid } from "uuid"
+//import { Perfil } from './Perfil';
 
 @Entity({ name: 'usuarios_admins' })
 export class UsuarioAdmin {
@@ -27,18 +28,8 @@ export class UsuarioAdmin {
   password: string;
 
   @Column({ name: 'cpf', type: 'varchar' })
-  cpf: string;
-
-  @ManyToOne(() => Perfil, (perfil) => perfil.usuariosAdmins, {
-    onDelete: 'SET NULL',
-  })
-  @JoinColumn({ name: 'id_perfil', referencedColumnName: 'idPerfil' })
-  perfil: Perfil;
-
-  // Opcional: Campos de auditoria
-  @CreateDateColumn({ name: 'created_at' })
-  createdAt: Date;
-
-  @UpdateDateColumn({ name: 'updated_at' })
-  updatedAt: Date;
+  cpf: string
+  constructor(){
+    this.idUser = uuid()
+  }
 }

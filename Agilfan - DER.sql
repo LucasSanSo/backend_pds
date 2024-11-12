@@ -1,9 +1,25 @@
-CREATE TABLE "alunos" (
-  "cpf" varchar PRIMARY KEY,
+CREATE TABLE "mensalidades" (
+  "id_mensalidade" varchar PRIMARY KEY,
+  "matricula" varchar,
+  "mes_ref" integer,
+  "ano_ref" integer,
+  "dia_vcto" TIMESTAMP,
+  "dia_pagamento" TIMESTAMP,
+  "valor_pago" float,
+  "status_pago" bool,
+  "id_turma" varchar
+);
+
+CREATE TABLE "usuarios" (
+  "matricula" varchar PRIMARY KEY,
+  "user" varchar,
+  "password" varchar,
+  "perfil" varchar,
   "nome" varchar,
   "endereco" varchar,
   "telefone" varchar,
-  "e_mail" varchar
+  "e_mail" varchar,
+  "cpf" varchar
 );
 
 CREATE TABLE "turmas" (
@@ -11,55 +27,10 @@ CREATE TABLE "turmas" (
   "curso" varchar,
   "turno" varchar,
   "ano_ref" integer,
-  "semestre_ref" integer
+  "semestre_ref" integer,
+  "valor_cheio" float
 );
 
-CREATE TABLE "usuarios_alunos" (
-  "matricula" varchar PRIMARY KEY,
-  "cpf" varchar,
-  "id_turma" varchar,
-  "password" varchar,
-  FOREIGN KEY ("cpf") REFERENCES "alunos" ("cpf"),
-  FOREIGN KEY ("id_turma") REFERENCES "turmas" ("id_turma")
-);
+ALTER TABLE "mensalidades" ADD FOREIGN KEY ("id_turma") REFERENCES "turmas" ("id_turma");
 
-CREATE TABLE "mensalidades" (
-  "id_mensalidade" varchar PRIMARY KEY,
-  "usuarios_alunos" varchar,
-  "mes_ref" integer,
-  "ano_ref" integer,
-  "dia_vcto" TIMESTAMP,
-  "dia_pagamento" TIMESTAMP,
-  "pago" boolean,
-  FOREIGN KEY ("usuarios_alunos") REFERENCES "usuarios_alunos" ("matricula")
-);
-
-CREATE TABLE "perfis" (
-  "id_perfil" varchar PRIMARY KEY,
-  "description" varchar,
-  "permissions" varchar
-);
-
-CREATE TABLE "usuarios_admins" (
-  "id_user" varchar PRIMARY KEY,
-  "id_perfil" varchar,
-  "nome" varchar,
-  "user" varchar,
-  "password" varchar,
-  "cpf" varchar,
-  FOREIGN KEY ("id_perfil") REFERENCES "perfis" ("id_perfil")
-);
-
-CREATE TABLE "valores" (
-  "id_valores" varchar,
-  "valor_cheio" DECIMAL,
-  "valor_dia_5" DECIMAL,
-  "valor_dia_10" DECIMAL,
-  "valor_dia_30" DECIMAL,
-  "descont_bolsa_perc" float,
-  "juros" DECIMAL,
-  "mora" DECIMAL,
-  "turma" varchar,
-  PRIMARY KEY ("id_valores", "turma"),
-  FOREIGN KEY ("turma") REFERENCES "turmas" ("id_turma")
-);
+ALTER TABLE "mensalidades" ADD FOREIGN KEY ("matricula") REFERENCES "usuarios" ("matricula");
